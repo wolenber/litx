@@ -1,8 +1,5 @@
 [{document
-    ::strategy [{none}]
-    ::page [{letter}]
-    ::quote ''proof ::'' still quoted''
-    ::fight me
+    ::strategy none
     ||
 
     // First paragraph.

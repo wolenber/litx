@@ -1,5 +1,5 @@
 [{document
-    ::strategy [{mla}]
+    ::strategy mla
     ::meta [{
         ::firstname Cedrick
         ::lastname Cooke
