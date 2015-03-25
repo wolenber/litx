@@ -1,0 +1,31 @@
+[{document
+    ::strategy [{mla}]
+    ::meta [{
+        ::firstname Cedrick
+        ::lastname Cooke
+        ::professor Examplor
+        ::class ''Introduction to LitX''
+        ::title ''LitX Example''}]
+    ::works-cited [{
+        [{entry
+            ::author ''Mr Author''
+            ::title ''My Book''
+            ::date ''January, 1000''}]
+        [{entry
+            ::author ''Julia Writesalot''
+            ::title ''A Tale of Ten Thousand Thesis''
+            ::date ''April, 1959''}] }]
+    ||
+
+    // First paragraph.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+    // Second paragraph.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+}]

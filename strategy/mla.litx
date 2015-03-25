@@ -1,0 +1,69 @@
+[{strategy
+    // First, we cover fields and custom document stuff
+    ::name mla
+    ::metafields [{
+        // Fields have defaults of
+        //   ::kind text
+        //   ::optional false
+        [{field ::name firstname }]
+        [{field ::name lastname }]
+        [{field ::name title }]
+        [{field ::name professor ::optional true }]
+        [{field ::name class     ::optional true }]
+        [{field ::name date      ::optional true ::kind date ::default $$special/today }]
+    }]
+    ::fields [{
+        [{field ::name works-cited ::optional true ::kind bibliography }]
+        [{field ::name page        ::optional true ::kind page ::default page/letter/1in }]
+    }]
+
+    #[{include ''default-text-settings.litxpart''}]
+
+    ::header [{
+        ::pages all
+        ::border-top 0.5in
+        ::content [{
+            ::align right
+            ||
+            $$meta/lastname $$special/page-no
+        }]
+    }]
+    ::footer none
+
+    ::frontmatter [{
+        // page is non-optional. Possible values are: before-first, first, or none
+        ::page first
+        ::content [{
+            // No custom formatting
+            ||
+
+            $$meta/firstname $$meta/lastname
+
+            [{ if-exists $$meta/professor || $$meta/professor }]
+
+            [{ if-exists $$meta/class || $$meta/class }]
+
+            // Date format uses https://msdn.microsoft.com/en-us/library/8kb3ddd4%28v=vs.110%29.aspx
+            // Or at least something like it.
+            [{ date ::format ''d MMMM yyyy'' ::source $$meta/date }]
+
+            [{ align center || $$meta/title }]
+        }]
+    }]
+    ::backmatter none
+
+    ::bibliography [{
+        // page is non-optional. Possible values are last, after-last, and none
+        ::page after-last
+        ::content [{
+            // No custom formatting
+            ||
+
+            [{ align center || Works Cited }]
+
+            // FIXME This isn't done yet!
+        }]
+    }]
+
+    ::body [{ || $$special/body }]
+}]

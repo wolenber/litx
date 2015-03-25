@@ -1,0 +1,11 @@
+::text-settings [{
+    ::default [{
+        ::align left
+        ::indent regular
+        ::font [{
+            ::face ''Times New Roman; Times; Serif''
+            ::size 12pt
+        }]
+        ::line-spacing 2.0
+    }]
+}]

@@ -1,0 +1,15 @@
+[package]
+
+name = "litx"
+version = "0.0.1"
+authors = ["Cedrick Cooke <cedrickc@zoho.com>"]
+
+[[bin]]
+name = "litx"
+doc = false
+
+[dependencies]
+
+[dependencies.rustlex]
+# git = "https://github.com/kali/rustlex"
+path = "/home/cedrickc/programming/rustlex"
