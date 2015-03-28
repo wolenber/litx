@@ -27,7 +27,7 @@ pub mod parse;
 pub mod preprocess;
 pub mod render;
 pub mod syntax;
-pub mod strat;
+pub mod strategy;
 pub mod token;
 
 // That said, re-export the important stuff anyways
@@ -35,4 +35,4 @@ pub use doc::Document;
 pub use error::{ Error, Result };
 pub use render::RenderSystem;
 pub use render::PdfRenderer;
-pub use strat::Strategy;
+pub use strategy::Strategy;

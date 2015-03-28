@@ -6,6 +6,7 @@ use lex;
 use parse;
 use preprocess;
 use render::RenderSystem;
+use strategy::Strategy;
 use syntax;
 
 use std::io::BufRead;
@@ -17,8 +18,9 @@ use std::path::Path;
 ///
 /// At this point, a Document should be ready to be run through a renderer.
 #[derive(Debug)]
-#[derive(Copy, Clone)]
-pub struct Document;
+pub struct Document {
+    strategy: Strategy
+}
 
 impl Document {
     /// Create a document from an expression
@@ -26,6 +28,9 @@ impl Document {
     /// At this stage, it is too late to preprocess.
     /// As such, we don't need a working directory.
     pub fn new(expr: syntax::Node) -> Result<Document> {
+        // HACK This is gonna be ugly, inefficient, and terrible for a while.
+        let strategy = expr.property("strategy").unwrap().as_text().unwrap();
+        println!("Document strategy: {}", strategy);
         Err(Error::Unimplemented(file!(), line!()))
     }
 
