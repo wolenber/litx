@@ -1,7 +1,6 @@
 //! Error type
 
 use std;
-use std::error::FromError;
 use std::io;
 use std::fmt;
 use std::fmt::{ Display };
@@ -9,8 +8,8 @@ use std::fmt::{ Display };
 /// Automatic impl for wrapping $from in $member
 macro_rules! impl_from_error {
     (<$from:ty> for $to:ty as $member:path) => {
-        impl FromError<$from> for $to {
-            fn from_error(err: $from) -> $to {
+        impl From<$from> for $to {
+            fn from(err: $from) -> $to {
                 $member(err)
             }
         }

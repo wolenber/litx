@@ -93,40 +93,40 @@ impl Strategy {
 
 /// A grouping of a name, a field-type, a possible default value, and option-ality
 #[derive(Debug)]
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub struct Field;
 
 /// Text settings
 #[derive(Debug)]
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub struct TextSettings;
 
 /// Header settings
 #[derive(Debug)]
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub struct Header;
 
 /// Footer settings
 #[derive(Debug)]
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub struct Footer;
 
 /// Frontmatter (like a title page, page of contents, etc)
 #[derive(Debug)]
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub struct Frontmatter;
 
 /// Backmatter (like a glossery of terms, or index)
 #[derive(Debug)]
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub struct Backmatter;
 
 /// Bibliography settings
 #[derive(Debug)]
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub struct Bibliography;
 
 /// Body settings
 #[derive(Debug)]
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub struct Body;
