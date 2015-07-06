@@ -7,6 +7,8 @@ pub enum Node {
     Expression(Vec<Node>),
     /// A node containing a text key and exactly one child.
     Property(String, Box<Node>),
+    /// A node which represents a variable value
+    Var(String),
     /// A node containing exactly one word
     Word(String),
     /// A node containing any number of words

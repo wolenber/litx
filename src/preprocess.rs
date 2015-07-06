@@ -2,7 +2,7 @@
 
 use error::Error;
 use error::Result;
-use lex;
+use lex::Lexer;
 use parse;
 use syntax::Node;
 
@@ -80,7 +80,7 @@ impl Command {
         let mut file_contents = String::new();
         try!(file.read_to_string(&mut file_contents));
         // HACK This is probably the least efficient way to do this
-        Ok(String::from_str(file_contents.trim()))
+        Ok(file_contents.trim().to_string())
     }
 }
 
@@ -96,13 +96,12 @@ pub fn preprocess<R: BufRead>(reader: R, working_directory: Option<&Path>) -> St
         // FIXME unwrap is bad juju
         let line = line.unwrap();
         if let Some(expr) = as_preprocessor_command(&line) {
-            match evaluate_command(&expr, working_directory) {
+            match evaluate_command(expr, working_directory) {
                 Ok(output) => buffer.push_str(&output),
                 Err(e) => {
                     println!("WARNING: Error:  Preprocessor command failed at line {}.", line_no);
                     println!("         Detail: {}.", e);
-                    println!("         Action: Using line as plaintext, not preprocessor command.");
-                    buffer.push_str(&expr);
+                    println!("         Action: Ignoring line, removed from source.");
                 }
             }
         } else {
@@ -124,15 +123,15 @@ pub fn as_preprocessor_command(line: &str) -> Option<String> {
             && &trim[trim.len() - 2..] == "}]" { // and ends with }]
         // Remove the #, convert to String, and return
         let expr = &trim[1..];
-        Some(String::from_str(expr))
+        Some(expr.to_string())
     } else {
         None
     }
 }
 
 /// Evaluate a single preprocessor line, with crunch removed.
-pub fn evaluate_command(source: &str, working_directory: Option<&Path>) -> Result<String> {
-    let mut tokens = lex::from_str(source);
+pub fn evaluate_command(source: String, working_directory: Option<&Path>) -> Result<String> {
+    let mut tokens = try!(Lexer::new_from_string(source));
     let ast = match try!(parse::next_node(&mut tokens)) {
         Some(node) => node,
         None => return Err(Error::ParseFailure),

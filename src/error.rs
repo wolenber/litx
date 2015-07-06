@@ -73,10 +73,10 @@ impl Display for Error {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
         // FIXME These messages are trash.
         let msg = match *self {
-            Error::LexFailure => String::from_str("Lexing Failure"),
-            Error::ParseFailure => String::from_str("Parsing Failure"),
-            Error::EvaluationFailure => String::from_str("Evaluation Failure"),
-            Error::RenderFailure => String::from_str("Render Failure"),
+            Error::LexFailure => "Lexing Failure".to_string(),
+            Error::ParseFailure => "Parsing Failure".to_string(),
+            Error::EvaluationFailure => "Evaluation Failure".to_string(),
+            Error::RenderFailure => "Render Failure".to_string(),
             Error::Unimplemented(file, line) => format!("Unimplemeted:  {}:{}", file, line),
             Error::Io(ref cause) => format!("IO Error:  {}", cause),
         };

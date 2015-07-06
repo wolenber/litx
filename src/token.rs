@@ -11,6 +11,8 @@ pub enum Token {
     TextLine(String),
     /// ::string
     Key(String),
+    /// $$string
+    Var(String),
     /// [{
     Open,
     /// }]

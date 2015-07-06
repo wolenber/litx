@@ -43,6 +43,7 @@ pub fn next_node<T>(tokens: &mut T) -> Result<Option<Node>>
             Token::Quote(s) => Ok(Some(Node::Text(s))),
             Token::TextLine(s) => Ok(Some(Node::Text(s))),
             Token::Word(s) => Ok(Some(Node::Word(s))),
+            Token::Var(s) => Ok(Some(Node::Var(s))),
             Token::Key(key) => {
                 match next_node(tokens) {
                     Err(e) => Err(e),

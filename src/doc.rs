@@ -2,7 +2,7 @@
 
 use error::Error;
 use error::Result;
-use lex;
+use lex::Lexer;
 use parse;
 use preprocess;
 use render::RenderSystem;
@@ -53,7 +53,7 @@ impl Document {
     pub fn new_from_reader<R: BufRead>(reader: R, working_dir: Option<&Path>) -> Result<Document> {
         let source = preprocess::preprocess(reader, working_dir);
         println!("{}", source);
-        let mut tokens = lex::from_str(&source);
+        let mut tokens = try!(Lexer::new_from_string(source));
         let ast = match parse::next_node(&mut tokens) {
             Err(e) => return Err(e),
             Ok(None) => return Err(Error::ParseFailure),
