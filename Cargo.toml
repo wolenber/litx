@@ -4,8 +4,5 @@ name = "litx"
 version = "0.0.1"
 authors = ["Cedrick Cooke <cedrickc@zoho.com>"]
 
-[[bin]]
-name = "litx"
-doc = false
-
-[dependencies]
+[dependencies.plex]
+git = "https://github.com/goffrie/plex"
