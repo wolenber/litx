@@ -2,6 +2,7 @@ use lexer::TextSpan;
 use lexer::Token;
 
 #[derive(Debug)]
+#[derive(Eq, PartialEq)]
 pub struct Ast {
     pub repr: Vec<Node>,
 }
@@ -17,6 +18,7 @@ impl Ast {
 }
 
 #[derive(Debug)]
+#[derive(Eq, PartialEq)]
 pub enum Node {
     Expression(TextSpan, Expression),
     Divider(TextSpan),
@@ -56,6 +58,7 @@ impl Node {
 }
 
 #[derive(Debug)]
+#[derive(Eq, PartialEq)]
 pub struct Expression {
     pub repr: Vec<Node>
 }

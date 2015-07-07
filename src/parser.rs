@@ -46,3 +46,38 @@ pub fn parse<I: Iterator<Item=TokenSpan>>(i: I)
     ast.sanitize();
     Ok(ast)
 }
+
+#[cfg(test)]
+mod test {
+    use ast::*;
+    use lexer::TextSpan;
+
+    fn test(source: &str, expected: Ast) {
+        use super::parse;
+        use lexer::*;
+
+        let lexer = Lexer::new(source);
+        let parser = parse(lexer).unwrap();
+        assert_eq!(expected, parser);
+    }
+
+    #[test]
+    fn nothing() {
+        let src = "";
+        let expected = Ast { repr: Vec::new()};
+        test(src, expected);
+    }
+
+    #[test]
+    fn something() {
+        let src = "[{ foo }]";
+        let expected = Ast {
+            repr: vec![
+                Node::Expression ( TextSpan { low: 0, high: 2 }, Expression { repr: vec![
+                    Node::Text( TextSpan { low: 3, high: 6 }, "foo".to_string())
+                ]})
+            ]
+        };
+        test(src, expected);
+    }
+}
