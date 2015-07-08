@@ -12,10 +12,12 @@
 #![plugin(plex)]
 
 mod ast;
+mod document;
 mod error;
+mod expression;
 mod lexer;
-pub mod parser;
+mod parser;
 
 // That said, re-export the important stuff anyways
+pub use document::{ Document, Strategy };
 pub use error::{ Error, Result };
-pub use lexer::{ Lexer, Token };

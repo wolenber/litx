@@ -7,11 +7,11 @@
         ::class ''Introduction to LitX''
         ::title ''LitX Example'' }]
     ::works-cited [{
-        [{ entry
+        [{entry
             ::author ''Mr Author''
             ::title ''My Book''
             ::date ''January, 1000'' }]
-        [{ entry
+        [{entry
             ::author ''Julia Writesalot''
             ::title ''A Tale of Ten Thousand Thesis''
             ::date ''April, 1959'' }] }]

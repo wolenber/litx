@@ -36,16 +36,18 @@ parser! {
     }
 }
 
+/// Parse an iterator of tokens into an AST.
+pub fn parse<I: Iterator<Item=TokenSpan>>(i: I) 
+        -> Result<Ast, ParseError> {
+    let ast = try!(__parse__(i));
+    Ok(ast)
+}
+
 /// Tuple of a Token and a Unit. Basically just a token, but cleans some type signatures.
 pub type TokenSpan = (Token, TextSpan);
 
-/// Parse an iterator of tokens into an AST.
-pub fn parse<I: Iterator<Item=TokenSpan>>(i: I) 
-        -> Result<Ast, (Option<TokenSpan>, &'static str)> {
-    let mut ast = try!(__parse__(i));
-    ast.sanitize();
-    Ok(ast)
-}
+/// Error type automatically chosen by plex
+pub type ParseError = (Option<TokenSpan>, &'static str);
 
 #[cfg(test)]
 mod test {
@@ -73,7 +75,7 @@ mod test {
         let src = "[{ foo }]";
         let expected = Ast {
             repr: vec![
-                Node::Expression ( TextSpan { low: 0, high: 2 }, Expression { repr: vec![
+                Node::Expression ( TextSpan { low: 0, high: 9 }, Expression { repr: vec![
                     Node::Text( TextSpan { low: 3, high: 6 }, "foo".to_string())
                 ]})
             ]

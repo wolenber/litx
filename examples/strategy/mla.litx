@@ -10,7 +10,8 @@
         [{field ::name title }]
         [{field ::name professor ::optional true }]
         [{field ::name class     ::optional true }]
-        [{field ::name date      ::optional true ::kind date ::default $$special/today }]
+        // If a default is specified, the field is automatically optional.
+        [{field ::name date ::kind date ::default $$special/today }]
     }]
     ::fields [{
         [{field ::name works-cited ::optional true ::kind bibliography }]

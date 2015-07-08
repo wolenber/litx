@@ -30,19 +30,34 @@ pub enum Token {
     Whitespace
 }
 
+impl Token {
+    pub fn contents(&self) -> Option<&str> {
+        let s = match *self {
+            Token::Quote(ref s) => s,
+            Token::Comment(ref s) => s,
+            Token::Word(ref s) => s,
+            Token::Key(ref s) => s,
+            Token::Var(ref s) => s,
+            _ => return None
+        };
+        Some(s)
+    }
+}
+
 impl Display for Token {
     fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
-        use Token::*;
-
         match *self {
-            Quote(ref s) => try!(f.write_str(s)),
-            Comment(ref s) => try!(f.write_str(s)),
-            Word(ref s) => try!(f.write_str(s)),
-            Key(ref s) => try!(f.write_str(s)),
-            Var(ref s) => try!(f.write_str(s)),
-            _ => { }
+            Token::Quote(ref s) => write!(f, "''{}''", s),
+            Token::Comment(ref s) => write!(f, "// {}", s),
+            Token::Word(ref s) => write!(f, "{}", s),
+            Token::Key(ref s) => write!(f, "::{}", s),
+            Token::Var(ref s) => write!(f, "$${}", s),
+            Token::Open => write!(f, "[{{"),
+            Token::Close => write!(f, "}}]"),
+            Token::Divider => write!(f, "||"),
+            Token::BlankLine => write!(f, "(empty line)"),
+            Token::Whitespace => write!(f, "(whitespace)"),
         }
-        Ok(())
     }
 }
 
@@ -125,11 +140,18 @@ impl TextSpan {
 
     pub fn merge(a: TextSpan, b: TextSpan) -> TextSpan {
         let low = if a.low < b.low { a.low } else { b.low };
-        let high = if a.high < b.high { a.high } else { b.high };
+        let high = if a.high > b.high { a.high } else { b.high };
         TextSpan {
             low: low,
             high: high,
         }
+    }
+}
+
+
+impl Display for TextSpan {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
+        write!(f, "[{}, {})", self.low, self.high)
     }
 }
 

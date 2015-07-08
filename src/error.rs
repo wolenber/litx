@@ -1,5 +1,7 @@
 //! Error type
 
+use parser;
+
 use std;
 use std::io;
 use std::fmt;
@@ -38,27 +40,25 @@ pub type Result<T> = std::result::Result<T, Error>;
 /// Litx standard error type
 #[derive(Debug)]
 pub enum Error {
-    /// Failure during lexing
-    LexFailure,
-    /// Failure during parsing
-    ParseFailure,
+    /// Error while lexing or parsing the document
+    ParseFailure(parser::ParseError),
     /// Failure during evaluation and document building
     EvaluationFailure,
     /// Render failures
     RenderFailure,
     /// IO error
     Io(io::Error),
-    /// Unimplemented failure. You should not see this!
+    /// Unimplemented failure. You should not see this, as a user
     Unimplemented(&'static str, u32),
 }
 
 impl_from_error!(<io::Error> for Error as Error::Io);
+impl_from_error!(<parser::ParseError> for Error as Error::ParseFailure);
 
 impl std::error::Error for Error {
     fn description(&self) -> &str {
         match *self {
-            Error::LexFailure => "Indicates a failure occured during lexing",
-            Error::ParseFailure => "Indicates a failure occured during parsing",
+            Error::ParseFailure(..) => "Indicates a failure occured during lexing or parsing",
             Error::EvaluationFailure => "Indicates a failure occured during an evaluation",
             Error::RenderFailure => "Indicates a failure occured during rendering",
             Error::Unimplemented(..) => "I haven't finished something yet. This isn't your fault.",
@@ -71,10 +71,15 @@ impl std::error::Error for Error {
 
 impl Display for Error {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
-        // FIXME These messages are trash.
+        // FIXME: These messages are trash.
         let msg = match *self {
-            Error::LexFailure => "Lexing Failure".to_string(),
-            Error::ParseFailure => "Parsing Failure".to_string(),
+            Error::ParseFailure(ref cause) => {
+                match cause {
+                    &(Some((ref token, span)), strin) =>
+                        format!("Parsing Failure: {} @ {} ({})", token, span, strin),
+                    &(None, strin) => format!("Parsing Failure: {}", strin),
+                }
+            }
             Error::EvaluationFailure => "Evaluation Failure".to_string(),
             Error::RenderFailure => "Render Failure".to_string(),
             Error::Unimplemented(file, line) => format!("Unimplemeted:  {}:{}", file, line),
