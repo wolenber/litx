@@ -88,7 +88,8 @@ impl <'a> Iterator for Lexer<'a>  {
                     continue;
                 } else {
                     let (token, span) = token;
-                    return Some((token, TextSpan::from(self.source, span)));
+                    let text_span = TextSpan::from(self.source, self.remaining, span);
+                    return Some((token, text_span));
                 }
             } else {
                 return None;
@@ -133,18 +134,16 @@ pub struct TextSpan {
 
 impl TextSpan {
     /// Create a text span from a string and a slice of it.
-    pub fn from(large: &str, small: &str) -> TextSpan {
-        let low = large.subslice_offset(small);
-        TextSpan { low: low, high: low + small.len() }
+    pub fn from(source: &str, remaining: &str, token: &str) -> TextSpan {
+        let high = source.len() - remaining.len();
+        let low = high - token.len();
+        TextSpan { low: low, high: high }
     }
 
     pub fn merge(a: TextSpan, b: TextSpan) -> TextSpan {
         let low = if a.low < b.low { a.low } else { b.low };
         let high = if a.high > b.high { a.high } else { b.high };
-        TextSpan {
-            low: low,
-            high: high,
-        }
+        TextSpan { low: low, high: high }
     }
 }
 

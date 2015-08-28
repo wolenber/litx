@@ -1,8 +1,6 @@
 //! Literexp metadata, parsing, etc.
 //! Useful for people who wanna do their own thang, I guess.
 
-#![feature(subslice_offset)]
-
 // Lint fairly aggressively, manually allowing where necessary
 #![warn(missing_docs)]
 #![deny(missing_copy_implementations)]
